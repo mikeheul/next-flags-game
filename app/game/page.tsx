@@ -139,7 +139,7 @@ const FlagGame = () => {
     };
 
     return (
-        <div className="flex flex-col text-center items-center justify-center min-h-screen py-2 px-3 bg-slate-800 pt-20">
+        <div className="flex flex-col text-center items-center min-h-screen py-2 px-3 bg-slate-800 pt-20">
             <h1 className="text-4xl uppercase font-bold mb-4 text-white">Jeu des drapeaux</h1>
             {currentFlag ? (
                 <>
