@@ -80,6 +80,7 @@ const FlagGame = () => {
     const [timeTaken, setTimeTaken] = useState<number | null>(null);
     const [showCountry, setShowCountry] = useState<boolean>(false);
     const [showNotice, setShowNotice] = useState<boolean>(true);
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState<boolean>(false); // State to manage the disabled status of the "Drapeau suivant" button
     
     const confetti = useConfettiStore();
 
@@ -107,6 +108,7 @@ const FlagGame = () => {
         const randomFlag = availableFlags[Math.floor(Math.random() * availableFlags.length)];
 
         try {
+            setIsNextButtonDisabled(true); // Disable the "Drapeau suivant" button
             const flagUrl = await fetchFlag(randomFlag);
             setCurrentFlag(flagUrl);
             setCurrentCountry(COUNTRY_TRANSLATIONS[randomFlag]);
@@ -116,8 +118,14 @@ const FlagGame = () => {
             if (!startTime) {
                 setStartTime(new Date());
             }
+
+            setTimeout(() => {
+                setIsNextButtonDisabled(false); // Re-enable the "Drapeau suivant" button after 1 second
+            }, 2000);
+
         } catch (error) {
             console.error('Error fetching flag:', error);
+            setIsNextButtonDisabled(false);
         }
     };
 
@@ -175,8 +183,9 @@ const FlagGame = () => {
                     <button 
                         onClick={generateRandomFlag} 
                         className="px-4 py-2 mt-10 bg-blue-500 text-white rounded-md hover:bg-blue-600 hover:scale-125 duration-500 mb-4"
+                        disabled={isNextButtonDisabled}
                     >
-                        Drapeau suivant
+                        {usedFlags.length === FLAG_COUNTRIES.length ? 'Jeu Terminé' : 'Drapeau suivant'}
                     </button>
                     <div className="flex flex-col items-center">
                         <div className='w-full px-4 sm:w-[350px] h-auto mt-10'>
