@@ -11,7 +11,57 @@ const FLAG_COUNTRIES = [
     'Argentina', 'Peru', 'Chile', 'Japan', 'Syria', 'Saudi Arabia', 'Korea', 'North Korea', 'Brazil',
     'South Africa', 'Algeria', 'Morocco', 'Tunisia', 'China', 'Colombia', 'Ecuador', 'Paraguay', 
     'Vietnam', 'Mexico', 'Egypt', 'Sri Lanka', 'Cambodia', 'Thailand'  
-];
+] as const;
+
+type Country = (typeof FLAG_COUNTRIES)[number];
+
+const COUNTRY_TRANSLATIONS: Record<Country, string> = {
+    'France': 'France',
+    'Germany': 'Allemagne',
+    'Italy': 'Italie',
+    'Spain': 'Espagne',
+    'Portugal': 'Portugal',
+    'Belgium': 'Belgique',
+    'Sweden': 'Suède',
+    'Norway': 'Norvège',
+    'Austria': 'Autriche',
+    'Switzerland': 'Suisse',
+    'Greece': 'Grèce',
+    'Turkey': 'Turquie',
+    'Russia': 'Russie',
+    'Republic of Ireland': 'Irlande',
+    'United Kingdom': 'Royaume-Uni',
+    'Malta': 'Malte',
+    'Croatia': 'Croatie',
+    'Albania': 'Albanie',
+    'Jamaica': 'Jamaïque',
+    'Republic of India': 'Inde',
+    'Canada': 'Canada',
+    'United States of America': 'États-Unis d\'Amérique',
+    'Argentina': 'Argentine',
+    'Peru': 'Pérou',
+    'Chile': 'Chili',
+    'Japan': 'Japon',
+    'Syria': 'Syrie',
+    'Saudi Arabia': 'Arabie Saoudite',
+    'Korea': 'Corée du Sud',
+    'North Korea': 'Corée du Nord',
+    'Brazil': 'Brésil',
+    'South Africa': 'Afrique du Sud',
+    'Algeria': 'Algérie',
+    'Morocco': 'Maroc',
+    'Tunisia': 'Tunisie',
+    'China': 'Chine',
+    'Colombia': 'Colombie',
+    'Ecuador': 'Équateur',
+    'Paraguay': 'Paraguay',
+    'Vietnam': 'Vietnam',
+    'Mexico': 'Mexique',
+    'Egypt': 'Égypte',
+    'Sri Lanka': 'Sri Lanka',
+    'Cambodia': 'Cambodge',
+    'Thailand': 'Thaïlande'
+};
 
 const fetchFlag = async (countryName: string) => {
     const response = await fetch(`/api/flags?countryName=${countryName}`);
@@ -28,6 +78,7 @@ const FlagGame = () => {
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [endTime, setEndTime] = useState<Date | null>(null);
     const [timeTaken, setTimeTaken] = useState<number | null>(null);
+    const [showCountry, setShowCountry] = useState<boolean>(false);
     
     const confetti = useConfettiStore();
 
@@ -57,14 +108,23 @@ const FlagGame = () => {
         try {
             const flagUrl = await fetchFlag(randomFlag);
             setCurrentFlag(flagUrl);
-            setCurrentCountry(randomFlag.toUpperCase());
+            setCurrentCountry(COUNTRY_TRANSLATIONS[randomFlag]);
             setUsedFlags([...usedFlags, randomFlag]);
+            setShowCountry(false);
+
             if (!startTime) {
                 setStartTime(new Date());
             }
         } catch (error) {
             console.error('Error fetching flag:', error);
         }
+    };
+
+    const handleRevealCountry = () => {
+        setShowCountry(true);
+        setTimeout(() => {
+            generateRandomFlag();
+        }, 2000); // Adjust the timeout to control how long the country name is shown before changing the flag
     };
 
     const restartGame = () => {
@@ -74,18 +134,29 @@ const FlagGame = () => {
         setStartTime(null);
         setEndTime(null);
         setTimeTaken(null);
+        setShowCountry(false);
         confetti.onClose();
     };
 
     return (
-        <div className="flex flex-col text-center items-center min-h-screen py-2 px-3 bg-slate-800 pt-20">
+        <div className="flex flex-col text-center items-center justify-center min-h-screen py-2 px-3 bg-slate-800 pt-20">
             <h1 className="text-4xl uppercase font-bold mb-4 text-white">Jeu des drapeaux</h1>
             {currentFlag ? (
                 <>
-                    <p className="text-lg text-white">
-                        {currentCountry}
-                    </p>
-                    <p className="text-lg text-white">
+                    <div className="relative text-lg text-white cursor-pointer" onClick={handleRevealCountry}>
+                        <div
+                            className={`absolute top-0 left-1/2 transform -translate-x-1/2 bg-gray-900 border border-white bg-opacity-75 flex items-center justify-center transition-opacity duration-500 ${
+                                showCountry ? 'opacity-0' : 'opacity-100'
+                            }`}
+                            style={{ pointerEvents: showCountry ? 'none' : 'auto', width: '200px', height: '50px' }}
+                        >
+                            <p className="text-white">REPONSE</p>
+                        </div>
+                        <p className={`${showCountry ? 'visible' : 'invisible'} uppercase transition-opacity duration-500 mt-3`}>
+                            {currentCountry}
+                        </p>
+                    </div>
+                    <p className="text-lg text-white mt-[50px]">
                         {usedFlags.length} / {FLAG_COUNTRIES.length}
                     </p>
                     <button 
