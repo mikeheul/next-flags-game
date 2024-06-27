@@ -150,7 +150,7 @@ const FlagGame = () => {
             <h1 className="text-4xl uppercase font-bold mb-4 text-white">Jeu des drapeaux</h1>
             {showNotice && (
                 <p className="text-lg max-w-5xl my-10">
-                    Bienvenue au jeu des drapeaux !<br/>Le but du jeu est de deviner oralement le pays correspondant au drapeau affiché. 
+                    <span className='block font-bold'>Bienvenue au jeu des drapeaux !</span><br/>Le but du jeu est de deviner oralement le pays correspondant au drapeau affiché. 
                     Cliquez sur Drapeau suivant pour commencer et utilisez le bouton REPONSE pour révéler le nom du pays (quand vous cliquez sur le bouton REPONSE, le jeu passe automatiquement au drapeau suivant !)
                 </p>
             )}
