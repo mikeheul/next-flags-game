@@ -79,6 +79,7 @@ const FlagGame = () => {
     const [endTime, setEndTime] = useState<Date | null>(null);
     const [timeTaken, setTimeTaken] = useState<number | null>(null);
     const [showCountry, setShowCountry] = useState<boolean>(false);
+    const [showNotice, setShowNotice] = useState<boolean>(true);
     
     const confetti = useConfettiStore();
 
@@ -135,12 +136,24 @@ const FlagGame = () => {
         setEndTime(null);
         setTimeTaken(null);
         setShowCountry(false);
+        setShowNotice(true);
         confetti.onClose();
+    };
+
+    const startGame = () => {
+        setShowNotice(false);
+        generateRandomFlag();
     };
 
     return (
         <div className="flex flex-col text-center items-center min-h-screen py-2 px-3 bg-slate-800 pt-20">
             <h1 className="text-4xl uppercase font-bold mb-4 text-white">Jeu des drapeaux</h1>
+            {showNotice && (
+                <p className="text-lg max-w-5xl my-10">
+                    Bienvenue au jeu des drapeaux !<br/>Le but du jeu est de deviner oralement le pays correspondant au drapeau affiché. 
+                    Cliquez sur "Drapeau suivant" pour commencer et utilisez le bouton "REPONSE" pour révéler le nom du pays (quand vous cliquez sur le bouton "REPONSE", le jeu passe automatiquement au drapeau suivant !)
+                </p>
+            )}
             {currentFlag ? (
                 <>
                     <div className="relative text-lg text-white cursor-pointer" onClick={handleRevealCountry}>
@@ -177,10 +190,10 @@ const FlagGame = () => {
                 </>
             ) : (
                 <button 
-                    onClick={generateRandomFlag} 
-                    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 mb-4"
-                >
-                    Démarrer le jeu
+                        onClick={startGame} 
+                        className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    >
+                        Démarrer le jeu
                 </button>
             )}
             {timeTaken !== null && (
