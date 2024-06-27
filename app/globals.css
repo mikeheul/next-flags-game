@@ -31,3 +31,18 @@ body {
     text-wrap: balance;
   }
 }
+
+.falling-reponse {
+  animation-name: fall;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fall {
+  0% {
+      transform: translateY(-100%);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
