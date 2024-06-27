@@ -125,7 +125,7 @@ const FlagGame = () => {
         setShowCountry(true);
         setTimeout(() => {
             generateRandomFlag();
-        }, 2000); // Adjust the timeout to control how long the country name is shown before changing the flag
+        }, 2000);
     };
 
     const restartGame = () => {
