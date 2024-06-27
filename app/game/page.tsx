@@ -121,7 +121,7 @@ const FlagGame = () => {
 
             setTimeout(() => {
                 setIsNextButtonDisabled(false); // Re-enable the "Drapeau suivant" button after 1 second
-            }, 2000);
+            }, 500);
 
         } catch (error) {
             console.error('Error fetching flag:', error);
@@ -182,7 +182,9 @@ const FlagGame = () => {
                     </p>
                     <button 
                         onClick={generateRandomFlag} 
-                        className="px-4 py-2 mt-10 bg-blue-500 text-white rounded-md hover:bg-blue-600 hover:scale-125 duration-500 mb-4"
+                        className={`px-4 py-2 mt-10 rounded-md mb-4 duration-500 ${
+                            isNextButtonDisabled ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600 hover:scale-125'
+                        }`}
                         disabled={isNextButtonDisabled}
                     >
                         {usedFlags.length === FLAG_COUNTRIES.length ? 'Jeu Terminé' : 'Drapeau suivant'}
