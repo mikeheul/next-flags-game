@@ -185,8 +185,8 @@ const FlagGame = () => {
             )}
             {timeTaken !== null && (
                 <div className="text-center">
-                    <p className="text-lg font-semibold text-green-700">Jeu terminé !</p>
-                    <p className="text-lg text-green-700">Temps : {timeTaken.toFixed(2)} secondes</p>
+                    <p className="text-lg font-semibold text-white">Jeu terminé !</p>
+                    <p className="text-lg text-white">Temps : {timeTaken.toFixed(2)} secondes</p>
                 </div>
             )}
             <button 
