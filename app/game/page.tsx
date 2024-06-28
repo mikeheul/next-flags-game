@@ -183,7 +183,7 @@ const FlagGame = () => {
                     <button 
                         onClick={generateRandomFlag} 
                         className={`px-4 py-2 mt-10 rounded-md mb-4 duration-500 ${
-                            isNextButtonDisabled ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600 hover:scale-125'
+                            isNextButtonDisabled ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
                         }`}
                         disabled={isNextButtonDisabled}
                     >
